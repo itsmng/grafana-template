@@ -1,0 +1,2689 @@
+{
+  "__inputs": [
+    {
+      "name": "DS_JSON_API",
+      "label": "JSON API",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "marcusolsson-json-datasource",
+      "pluginName": "JSON API"
+    }
+  ],
+  "__elements": {},
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "9.2.5"
+    },
+    {
+      "type": "datasource",
+      "id": "marcusolsson-json-datasource",
+      "name": "JSON API",
+      "version": "1.3.2"
+    },
+    {
+      "type": "panel",
+      "id": "piechart",
+      "name": "Pie chart",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "stat",
+      "name": "Stat",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "timeseries",
+      "name": "Time series",
+      "version": ""
+    }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": null,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 7,
+      "panels": [],
+      "title": "Ticketing",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "marcusolsson-json-datasource",
+        "uid": "${DS_JSON_API}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-GrYlRd"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "bars",
+            "fillOpacity": 20,
+            "gradientMode": "scheme",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "smooth",
+            "lineWidth": 3,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 16,
+        "x": 0,
+        "y": 1
+      },
+      "id": 26,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.2.5",
+      "targets": [
+        {
+          "cacheDurationSeconds": 300,
+          "columns": [],
+          "datasource": {
+            "type": "marcusolsson-json-datasource",
+            "uid": "${DS_JSON_API}"
+          },
+          "fields": [
+            {
+              "jsonPath": "$.data[*].2",
+              "name": "nb"
+            },
+            {
+              "jsonPath": "$.data[*].15",
+              "language": "jsonpath",
+              "name": "date",
+              "type": "time"
+            }
+          ],
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "headers": [],
+          "method": "GET",
+          "queryParams": "",
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "type": "json",
+          "url": "https://github.com/yesoreyeram/grafana-infinity-datasource/blob/main/testdata/users.json",
+          "urlPath": "/search/ticket/?expand_dropdown=true&range=0-99999999999999999999",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Tickets opening per days ...",
+      "transformations": [
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Nombre de tickets",
+            "mode": "reduceRow",
+            "reduce": {
+              "include": [
+                "nb"
+              ],
+              "reducer": "count"
+            },
+            "replaceFields": true
+          }
+        },
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "Nombre de tickets": {
+                "aggregations": [
+                  "sum"
+                ],
+                "operation": "aggregate"
+              },
+              "date": {
+                "aggregations": [],
+                "operation": "groupby"
+              }
+            }
+          }
+        }
+      ],
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "marcusolsson-json-datasource",
+        "uid": "${DS_JSON_API}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "index": 0,
+                  "text": "Not defined"
+                }
+              },
+              "type": "value"
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 1
+      },
+      "id": 27,
+      "options": {
+        "displayLabels": [
+          "percent"
+        ],
+        "legend": {
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true,
+          "values": []
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.2.5",
+      "targets": [
+        {
+          "cacheDurationSeconds": 300,
+          "columns": [],
+          "datasource": {
+            "type": "marcusolsson-json-datasource",
+            "uid": "${DS_JSON_API}"
+          },
+          "fields": [
+            {
+              "jsonPath": "$.*.id",
+              "language": "jsonpath",
+              "name": ""
+            },
+            {
+              "jsonPath": "$.*.locations_id",
+              "language": "jsonpath",
+              "name": ""
+            }
+          ],
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "headers": [],
+          "method": "GET",
+          "queryParams": "",
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "type": "json",
+          "url": "https://github.com/yesoreyeram/grafana-infinity-datasource/blob/main/testdata/users.json",
+          "urlPath": "/ticket?expand_dropdowns=true",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Tickets per location...",
+      "transformations": [
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "id": {
+                "aggregations": [
+                  "count"
+                ],
+                "operation": "aggregate"
+              },
+              "locations_id": {
+                "aggregations": [
+                  "lastNotNull"
+                ],
+                "operation": "groupby"
+              }
+            }
+          }
+        }
+      ],
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "marcusolsson-json-datasource",
+        "uid": "${DS_JSON_API}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "index": 0,
+                  "text": "not defined"
+                }
+              },
+              "type": "value"
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 9
+      },
+      "id": 28,
+      "options": {
+        "displayLabels": [
+          "percent"
+        ],
+        "legend": {
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true,
+          "values": []
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.2.5",
+      "targets": [
+        {
+          "cacheDurationSeconds": 300,
+          "columns": [],
+          "datasource": {
+            "type": "marcusolsson-json-datasource",
+            "uid": "${DS_JSON_API}"
+          },
+          "fields": [
+            {
+              "jsonPath": "$.*.id",
+              "language": "jsonpath",
+              "name": ""
+            },
+            {
+              "jsonPath": "$.*.itilcategories_id",
+              "language": "jsonpath",
+              "name": ""
+            }
+          ],
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "headers": [],
+          "method": "GET",
+          "queryParams": "",
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "type": "json",
+          "url": "https://github.com/yesoreyeram/grafana-infinity-datasource/blob/main/testdata/users.json",
+          "urlPath": "/ticket?expand_dropdowns=true",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Tickets per category...",
+      "transformations": [
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "id": {
+                "aggregations": [
+                  "count"
+                ],
+                "operation": "aggregate"
+              },
+              "itilcategories_id": {
+                "aggregations": [],
+                "operation": "groupby"
+              }
+            }
+          }
+        }
+      ],
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "marcusolsson-json-datasource",
+        "uid": "${DS_JSON_API}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-GrYlRd"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "bars",
+            "fillOpacity": 30,
+            "gradientMode": "scheme",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 1,
+            "pointSize": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 16,
+        "x": 0,
+        "y": 13
+      },
+      "id": 46,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.2.5",
+      "targets": [
+        {
+          "cacheDurationSeconds": 300,
+          "columns": [],
+          "datasource": {
+            "type": "marcusolsson-json-datasource",
+            "uid": "${DS_JSON_API}"
+          },
+          "fields": [
+            {
+              "jsonPath": "$.data[*].2",
+              "name": "nb"
+            },
+            {
+              "jsonPath": "$.data[*].15",
+              "language": "jsonpath",
+              "name": "date",
+              "type": "time"
+            }
+          ],
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "headers": [],
+          "method": "GET",
+          "queryParams": "",
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "type": "json",
+          "url": "https://github.com/yesoreyeram/grafana-infinity-datasource/blob/main/testdata/users.json",
+          "urlPath": "/search/ticket/?expand_dropdown=true&range=0-99999999999999999999&criteria[0][field]=82&criteria[0][searchtype]=equals&criteria[0][value]=1",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Late tickets on the...",
+      "transformations": [
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Nombre de tickets",
+            "mode": "reduceRow",
+            "reduce": {
+              "include": [
+                "nb"
+              ],
+              "reducer": "count"
+            },
+            "replaceFields": true
+          }
+        },
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "Nombre de tickets": {
+                "aggregations": [
+                  "sum"
+                ],
+                "operation": "aggregate"
+              },
+              "date": {
+                "aggregations": [],
+                "operation": "groupby"
+              }
+            }
+          }
+        }
+      ],
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "marcusolsson-json-datasource",
+        "uid": "${DS_JSON_API}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": [],
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 17
+      },
+      "id": 45,
+      "options": {
+        "displayLabels": [
+          "percent"
+        ],
+        "legend": {
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true,
+          "values": []
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.2.5",
+      "targets": [
+        {
+          "cacheDurationSeconds": 300,
+          "datasource": {
+            "type": "marcusolsson-json-datasource",
+            "uid": "${DS_JSON_API}"
+          },
+          "fields": [
+            {
+              "jsonPath": "$.data[*].2",
+              "language": "jsonpath",
+              "name": "id",
+              "type": "number"
+            },
+            {
+              "jsonPath": "$.data[*].71",
+              "language": "jsonpath",
+              "name": "Groupe"
+            }
+          ],
+          "method": "GET",
+          "queryParams": "",
+          "refId": "B",
+          "urlPath": "/search/ticket/?expand_dropdowns=true&criteria[0][field]=71&criteria[0][searchtype]=equals&criteria[0][value]=0"
+        }
+      ],
+      "title": "Ticket per user group...",
+      "transformations": [
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "2": {
+                "aggregations": [
+                  "count"
+                ],
+                "operation": "aggregate"
+              },
+              "71": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Budgets": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Depense": {
+                "aggregations": [
+                  "sum"
+                ],
+                "operation": "aggregate"
+              },
+              "Groupe": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "id": {
+                "aggregations": [
+                  "count"
+                ],
+                "operation": "aggregate"
+              }
+            }
+          }
+        }
+      ],
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "marcusolsson-json-datasource",
+        "uid": "${DS_JSON_API}"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "color": "green",
+                  "index": 0,
+                  "text": "NONE"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 8,
+        "x": 0,
+        "y": 25
+      },
+      "id": 5,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.2.5",
+      "targets": [
+        {
+          "cacheDurationSeconds": 300,
+          "columns": [],
+          "datasource": {
+            "type": "marcusolsson-json-datasource",
+            "uid": "${DS_JSON_API}"
+          },
+          "fields": [
+            {
+              "jsonPath": "$.totalcount"
+            }
+          ],
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "headers": [],
+          "method": "GET",
+          "queryParams": "",
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "type": "json",
+          "url": "https://github.com/yesoreyeram/grafana-infinity-datasource/blob/main/testdata/users.json",
+          "urlPath": "/search/ticket/?is_deleted=0&as_map=0&criteria[0][link]=AND&criteria[0][field]=82&criteria[0][searchtype]=equals&criteria[0][value]=1&criteria[1][link]=AND&criteria[1][field]=15&criteria[1][searchtype]=morethan&_select_criteria[1][value]=-1MONTH&criteria[1][value]=-1MONTH",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Ticket with resolution time exceeding",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "marcusolsson-json-datasource",
+        "uid": "${DS_JSON_API}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "color": "green",
+                  "index": 0,
+                  "text": "None"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 8,
+        "x": 8,
+        "y": 25
+      },
+      "id": 4,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.2.5",
+      "targets": [
+        {
+          "cacheDurationSeconds": 300,
+          "columns": [],
+          "datasource": {
+            "type": "marcusolsson-json-datasource",
+            "uid": "${DS_JSON_API}"
+          },
+          "fields": [
+            {
+              "jsonPath": "$.totalcount"
+            }
+          ],
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "headers": [],
+          "method": "GET",
+          "queryParams": "",
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "type": "json",
+          "url": "https://github.com/yesoreyeram/grafana-infinity-datasource/blob/main/testdata/users.json",
+          "urlPath": "/search/ticket/?criteria[0][field]=159&criteria[0][searchtype]=equals&criteria[0][value]=1&criteria[1][link]=AND&criteria[1][field]=15&criteria[1][searchtype]=morethan&_select_criteria[1][value]=-1MONTH&criteria[1][value]=-1MONTH",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Ticket with time of care exceeded",
+      "type": "stat"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 29
+      },
+      "id": 9,
+      "panels": [],
+      "title": "Actifs",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "marcusolsson-json-datasource",
+        "uid": "${DS_JSON_API}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 30
+      },
+      "id": 29,
+      "options": {
+        "displayLabels": [
+          "percent"
+        ],
+        "legend": {
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true,
+          "values": []
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.2.5",
+      "targets": [
+        {
+          "cacheDurationSeconds": 300,
+          "columns": [],
+          "datasource": {
+            "type": "marcusolsson-json-datasource",
+            "uid": "${DS_JSON_API}"
+          },
+          "fields": [
+            {
+              "jsonPath": "$.*.id",
+              "language": "jsonpath",
+              "name": ""
+            },
+            {
+              "jsonPath": "$.*.locations_id",
+              "language": "jsonpath",
+              "name": ""
+            }
+          ],
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "headers": [],
+          "method": "GET",
+          "queryParams": "",
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "type": "json",
+          "url": "https://github.com/yesoreyeram/grafana-infinity-datasource/blob/main/testdata/users.json",
+          "urlPath": "/computer?expand_dropdowns=true",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "PC per Location...",
+      "transformations": [
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "id": {
+                "aggregations": [
+                  "count"
+                ],
+                "operation": "aggregate"
+              },
+              "locations_id": {
+                "aggregations": [],
+                "operation": "groupby"
+              }
+            }
+          }
+        }
+      ],
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "marcusolsson-json-datasource",
+        "uid": "${DS_JSON_API}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 30
+      },
+      "id": 30,
+      "options": {
+        "displayLabels": [
+          "percent"
+        ],
+        "legend": {
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true,
+          "values": []
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.2.5",
+      "targets": [
+        {
+          "cacheDurationSeconds": 300,
+          "columns": [],
+          "datasource": {
+            "type": "marcusolsson-json-datasource",
+            "uid": "${DS_JSON_API}"
+          },
+          "fields": [
+            {
+              "jsonPath": "$.*.id",
+              "language": "jsonpath",
+              "name": ""
+            },
+            {
+              "jsonPath": "$.*.states_id",
+              "language": "jsonpath",
+              "name": ""
+            }
+          ],
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "headers": [],
+          "method": "GET",
+          "queryParams": "",
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "type": "json",
+          "url": "https://github.com/yesoreyeram/grafana-infinity-datasource/blob/main/testdata/users.json",
+          "urlPath": "/computer?expand_dropdowns=true",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "PC per Status...",
+      "transformations": [
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "id": {
+                "aggregations": [
+                  "count"
+                ],
+                "operation": "aggregate"
+              },
+              "locations_id": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "states_id": {
+                "aggregations": [],
+                "operation": "groupby"
+              }
+            }
+          }
+        }
+      ],
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "marcusolsson-json-datasource",
+        "uid": "${DS_JSON_API}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 30
+      },
+      "id": 32,
+      "options": {
+        "displayLabels": [
+          "percent"
+        ],
+        "legend": {
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true,
+          "values": []
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.2.5",
+      "targets": [
+        {
+          "cacheDurationSeconds": 300,
+          "columns": [],
+          "datasource": {
+            "type": "marcusolsson-json-datasource",
+            "uid": "${DS_JSON_API}"
+          },
+          "fields": [
+            {
+              "jsonPath": "$.*.id",
+              "language": "jsonpath",
+              "name": ""
+            },
+            {
+              "jsonPath": "$.*.networkequipmenttypes_id",
+              "language": "jsonpath",
+              "name": ""
+            }
+          ],
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "headers": [],
+          "method": "GET",
+          "queryParams": "",
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "type": "json",
+          "url": "https://github.com/yesoreyeram/grafana-infinity-datasource/blob/main/testdata/users.json",
+          "urlPath": "/networkequipment?expand_dropdowns=true",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Network Equipement per Type.....",
+      "transformations": [
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "id": {
+                "aggregations": [
+                  "count"
+                ],
+                "operation": "aggregate"
+              },
+              "locations_id": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "networkequipmenttypes_id": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "networks_id": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "states_id": {
+                "aggregations": [],
+                "operation": "groupby"
+              }
+            }
+          }
+        }
+      ],
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "marcusolsson-json-datasource",
+        "uid": "${DS_JSON_API}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 38
+      },
+      "id": 36,
+      "options": {
+        "displayLabels": [
+          "percent"
+        ],
+        "legend": {
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true,
+          "values": []
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.2.5",
+      "targets": [
+        {
+          "cacheDurationSeconds": 300,
+          "columns": [],
+          "datasource": {
+            "type": "marcusolsson-json-datasource",
+            "uid": "${DS_JSON_API}"
+          },
+          "fields": [
+            {
+              "jsonPath": "$.*.id",
+              "language": "jsonpath",
+              "name": ""
+            },
+            {
+              "jsonPath": "$.*.manufacturers_id",
+              "language": "jsonpath",
+              "name": ""
+            }
+          ],
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "headers": [],
+          "method": "GET",
+          "queryParams": "",
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "type": "json",
+          "url": "https://github.com/yesoreyeram/grafana-infinity-datasource/blob/main/testdata/users.json",
+          "urlPath": "/computer/?expand_dropdowns=true",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "PC per manufacturer...",
+      "transformations": [
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "57": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "A 57": {
+                "aggregations": [
+                  "sum"
+                ],
+                "operation": "groupby"
+              },
+              "B ID": {
+                "aggregations": [
+                  "count"
+                ],
+                "operation": "aggregate"
+              },
+              "B sort": {
+                "aggregations": [
+                  "sum"
+                ],
+                "operation": "aggregate"
+              },
+              "id": {
+                "aggregations": [
+                  "max"
+                ],
+                "operation": "aggregate"
+              },
+              "manufacturers_id": {
+                "aggregations": [],
+                "operation": "groupby"
+              }
+            }
+          }
+        }
+      ],
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "marcusolsson-json-datasource",
+        "uid": "${DS_JSON_API}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 38
+      },
+      "id": 37,
+      "options": {
+        "displayLabels": [
+          "percent"
+        ],
+        "legend": {
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true,
+          "values": []
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.2.5",
+      "targets": [
+        {
+          "cacheDurationSeconds": 300,
+          "columns": [],
+          "datasource": {
+            "type": "marcusolsson-json-datasource",
+            "uid": "${DS_JSON_API}"
+          },
+          "fields": [
+            {
+              "jsonPath": "$.*.id",
+              "language": "jsonpath",
+              "name": ""
+            },
+            {
+              "jsonPath": "$.*.manufacturers_id",
+              "language": "jsonpath",
+              "name": ""
+            }
+          ],
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "headers": [],
+          "method": "GET",
+          "queryParams": "",
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "type": "json",
+          "url": "https://github.com/yesoreyeram/grafana-infinity-datasource/blob/main/testdata/users.json",
+          "urlPath": "/networkequipment/?expand_dropdowns=true&range=0-99999999999999999999",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Network Equipement per manufacturer...",
+      "transformations": [
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "57": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "A 57": {
+                "aggregations": [
+                  "sum"
+                ],
+                "operation": "groupby"
+              },
+              "B ID": {
+                "aggregations": [
+                  "count"
+                ],
+                "operation": "aggregate"
+              },
+              "B sort": {
+                "aggregations": [
+                  "sum"
+                ],
+                "operation": "aggregate"
+              },
+              "id": {
+                "aggregations": [
+                  "count"
+                ],
+                "operation": "aggregate"
+              },
+              "manufacturers_id": {
+                "aggregations": [],
+                "operation": "groupby"
+              }
+            }
+          }
+        }
+      ],
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "marcusolsson-json-datasource",
+        "uid": "${DS_JSON_API}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 38
+      },
+      "id": 16,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.2.5",
+      "targets": [
+        {
+          "cacheDurationSeconds": 300,
+          "columns": [],
+          "datasource": {
+            "type": "marcusolsson-json-datasource",
+            "uid": "${DS_JSON_API}"
+          },
+          "fields": [
+            {
+              "jsonPath": "$.totalcount"
+            }
+          ],
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "headers": [
+            [
+              "App-Token",
+              "hZQVHhDM19pA33dx4ydrOb68nZIEYG6WHjCQgsId"
+            ],
+            [
+              "Session-Token",
+              "qaai2886l9ls8a4dkdvnvc7t2c"
+            ]
+          ],
+          "method": "GET",
+          "queryParams": "",
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "type": "json",
+          "url": "https://github.com/yesoreyeram/grafana-infinity-datasource/blob/main/testdata/users.json",
+          "urlPath": "/search/networkequipment",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Number of network equipement",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "marcusolsson-json-datasource",
+        "uid": "${DS_JSON_API}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 46
+      },
+      "id": 21,
+      "options": {
+        "displayLabels": [
+          "percent"
+        ],
+        "legend": {
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": false,
+          "values": []
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.2.5",
+      "targets": [
+        {
+          "cacheDurationSeconds": 300,
+          "datasource": {
+            "type": "marcusolsson-json-datasource",
+            "uid": "${DS_JSON_API}"
+          },
+          "fields": [
+            {
+              "jsonPath": "$.totalcount",
+              "name": "."
+            }
+          ],
+          "method": "GET",
+          "queryParams": "",
+          "refId": "Sous Garantie",
+          "urlPath": "/search/Computer?&criteria[0][field]=120&criteria[0][searchtype]=morethan&_select_criteria[0][value]=NOW&criteria[0][value]=NOW"
+        },
+        {
+          "cacheDurationSeconds": 300,
+          "datasource": {
+            "type": "marcusolsson-json-datasource",
+            "uid": "${DS_JSON_API}"
+          },
+          "fields": [
+            {
+              "jsonPath": "$.*.id",
+              "name": "."
+            }
+          ],
+          "hide": false,
+          "method": "GET",
+          "queryParams": "",
+          "refId": "Sans Garantie",
+          "urlPath": "/Computer"
+        }
+      ],
+      "title": "PC in warranty",
+      "transformations": [],
+      "type": "piechart"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 54
+      },
+      "id": 11,
+      "panels": [],
+      "title": "Gestion financière",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "marcusolsson-json-datasource",
+        "uid": "${DS_JSON_API}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "index": 0,
+                  "text": "Pas d'ammortisement"
+                },
+                "1": {
+                  "color": "yellow",
+                  "index": 1,
+                  "text": "Dégressif"
+                },
+                "2": {
+                  "color": "semi-dark-orange",
+                  "index": 2,
+                  "text": "Linéaire"
+                }
+              },
+              "type": "value"
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 55
+      },
+      "id": 41,
+      "options": {
+        "displayLabels": [
+          "percent"
+        ],
+        "legend": {
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true,
+          "values": []
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.2.5",
+      "targets": [
+        {
+          "cacheDurationSeconds": 300,
+          "columns": [],
+          "datasource": {
+            "type": "marcusolsson-json-datasource",
+            "uid": "${DS_JSON_API}"
+          },
+          "fields": [
+            {
+              "jsonPath": "$.data[*].57",
+              "language": "jsonpath",
+              "name": ""
+            },
+            {
+              "jsonPath": "$.data[*].31",
+              "language": "jsonpath",
+              "name": ""
+            }
+          ],
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "headers": [],
+          "method": "GET",
+          "queryParams": "",
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "type": "json",
+          "url": "https://github.com/yesoreyeram/grafana-infinity-datasource/blob/main/testdata/users.json",
+          "urlPath": "/search/computer/?expand_dropdowns=true&criteria[0][field]=57&criteria[0][searchtype]=equals&criteria[0][value]=",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Computer by type of depreciation...",
+      "transformations": [
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "1": {
+                "aggregations": [],
+                "operation": "aggregate"
+              },
+              "3": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "5": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "31": {
+                "aggregations": [
+                  "count"
+                ],
+                "operation": "aggregate"
+              },
+              "53": {
+                "aggregations": [
+                  "count"
+                ],
+                "operation": "groupby"
+              },
+              "57": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "A 57": {
+                "aggregations": [
+                  "sum"
+                ],
+                "operation": "groupby"
+              },
+              "B ID": {
+                "aggregations": [
+                  "count"
+                ],
+                "operation": "aggregate"
+              },
+              "B sort": {
+                "aggregations": [
+                  "sum"
+                ],
+                "operation": "aggregate"
+              },
+              "id": {
+                "aggregations": [
+                  "count"
+                ],
+                "operation": "aggregate"
+              },
+              "manufacturers_id": {
+                "aggregations": [],
+                "operation": "groupby"
+              }
+            }
+          }
+        }
+      ],
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "marcusolsson-json-datasource",
+        "uid": "${DS_JSON_API}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "currencyEUR"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 55
+      },
+      "id": 35,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "sum"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.2.5",
+      "targets": [
+        {
+          "cacheDurationSeconds": 300,
+          "datasource": {
+            "type": "marcusolsson-json-datasource",
+            "uid": "${DS_JSON_API}"
+          },
+          "fields": [
+            {
+              "jsonPath": "$.data[*].7",
+              "language": "jsonpath",
+              "name": ".",
+              "type": "number"
+            }
+          ],
+          "method": "GET",
+          "queryParams": "",
+          "refId": "Sous Garantie",
+          "urlPath": "/search/budget/?criteria[0][field]=6&criteria[0][searchtype]=morethan&_select_criteria[0][value]=NOW&criteria[0][value]=NOW&criteria[1][link]=OR&criteria[1][field]=6&criteria[1][searchtype]=equals&_select_criteria[1][value]=NOW&criteria[1][value]=NOW&criteria[2][link]=AND&criteria[2][field]=5&criteria[2][searchtype]=equals&_select_criteria[2][value]=NOW&criteria[2][value]=NOW&criteria[3][link]=AND&criteria[3][field]=7&criteria[3][searchtype]=contains&criteria[3][value]="
+        }
+      ],
+      "title": "The total costs of budget",
+      "transformations": [],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "marcusolsson-json-datasource",
+        "uid": "${DS_JSON_API}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "color": "red",
+                  "index": 0,
+                  "text": "Sans Type"
+                }
+              },
+              "type": "value"
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 55
+      },
+      "id": 33,
+      "options": {
+        "displayLabels": [
+          "percent"
+        ],
+        "legend": {
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true,
+          "values": []
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.2.5",
+      "targets": [
+        {
+          "cacheDurationSeconds": 300,
+          "columns": [],
+          "datasource": {
+            "type": "marcusolsson-json-datasource",
+            "uid": "${DS_JSON_API}"
+          },
+          "fields": [
+            {
+              "jsonPath": "$.*.id",
+              "language": "jsonpath",
+              "name": ""
+            },
+            {
+              "jsonPath": "$.*.budgettypes_id",
+              "language": "jsonpath",
+              "name": ""
+            }
+          ],
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "headers": [],
+          "method": "GET",
+          "queryParams": "",
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "type": "json",
+          "url": "https://github.com/yesoreyeram/grafana-infinity-datasource/blob/main/testdata/users.json",
+          "urlPath": "/budget?expand_dropdowns=true",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Budget per type...",
+      "transformations": [
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "autoupdatesystems_id": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "budgettypes_id": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "id": {
+                "aggregations": [
+                  "count"
+                ],
+                "operation": "aggregate"
+              },
+              "locations_id": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "networks_id": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "states_id": {
+                "aggregations": [],
+                "operation": "groupby"
+              }
+            }
+          }
+        }
+      ],
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "marcusolsson-json-datasource",
+        "uid": "${DS_JSON_API}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": [],
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 63
+      },
+      "id": 43,
+      "options": {
+        "displayLabels": [
+          "percent"
+        ],
+        "legend": {
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true,
+          "values": []
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.2.5",
+      "targets": [
+        {
+          "cacheDurationSeconds": 300,
+          "datasource": {
+            "type": "marcusolsson-json-datasource",
+            "uid": "${DS_JSON_API}"
+          },
+          "fields": [
+            {
+              "jsonPath": "$.*.value",
+              "language": "jsonpath",
+              "name": "Depense",
+              "type": "number"
+            },
+            {
+              "jsonPath": "$.*.budgets_id",
+              "language": "jsonpath",
+              "name": "Budgets"
+            }
+          ],
+          "method": "GET",
+          "queryParams": "",
+          "refId": "B",
+          "urlPath": "/InfoCom/?expand_dropdowns=true"
+        }
+      ],
+      "title": "Cost per budget...",
+      "transformations": [
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "Budgets": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Depense": {
+                "aggregations": [
+                  "sum"
+                ],
+                "operation": "aggregate"
+              }
+            }
+          }
+        }
+      ],
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "marcusolsson-json-datasource",
+        "uid": "${DS_JSON_API}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 63
+      },
+      "id": 40,
+      "options": {
+        "displayLabels": [
+          "percent"
+        ],
+        "legend": {
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true,
+          "values": []
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.2.5",
+      "targets": [
+        {
+          "cacheDurationSeconds": 300,
+          "datasource": {
+            "type": "marcusolsson-json-datasource",
+            "uid": "${DS_JSON_API}"
+          },
+          "fields": [
+            {
+              "jsonPath": "$.data[*].1",
+              "language": "jsonpath",
+              "name": "PC"
+            },
+            {
+              "jsonPath": "$.data[*].56",
+              "language": "jsonpath",
+              "name": "x an"
+            }
+          ],
+          "method": "GET",
+          "queryParams": "",
+          "refId": "Sous Garantie",
+          "urlPath": "/search/computer/?criteria[0][field]=56&criteria[0][searchtype]=equals&criteria[0][value]="
+        }
+      ],
+      "title": "Amortization period",
+      "transformations": [
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "PC": {
+                "aggregations": [
+                  "count"
+                ],
+                "operation": "aggregate"
+              },
+              "x an": {
+                "aggregations": [],
+                "operation": "groupby"
+              }
+            }
+          }
+        }
+      ],
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "marcusolsson-json-datasource",
+        "uid": "${DS_JSON_API}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 63
+      },
+      "id": 38,
+      "options": {
+        "displayLabels": [
+          "percent"
+        ],
+        "legend": {
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true,
+          "values": []
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.2.5",
+      "targets": [
+        {
+          "cacheDurationSeconds": 300,
+          "columns": [],
+          "datasource": {
+            "type": "marcusolsson-json-datasource",
+            "uid": "${DS_JSON_API}"
+          },
+          "fields": [
+            {
+              "jsonPath": "$.data[*].53",
+              "language": "jsonpath",
+              "name": ""
+            },
+            {
+              "jsonPath": "$.data[*].31",
+              "language": "jsonpath",
+              "name": ""
+            }
+          ],
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "headers": [],
+          "method": "GET",
+          "queryParams": "",
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "type": "json",
+          "url": "https://github.com/yesoreyeram/grafana-infinity-datasource/blob/main/testdata/users.json",
+          "urlPath": "/search/computer/?criteria[0][link]=AND&criteria[0][field]=53&criteria[0][searchtype]=equals&criteria[0][value]=",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Computer per provider...",
+      "transformations": [
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "1": {
+                "aggregations": [],
+                "operation": "aggregate"
+              },
+              "3": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "5": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "31": {
+                "aggregations": [
+                  "count"
+                ],
+                "operation": "aggregate"
+              },
+              "53": {
+                "aggregations": [
+                  "count"
+                ],
+                "operation": "groupby"
+              },
+              "57": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "A 57": {
+                "aggregations": [
+                  "sum"
+                ],
+                "operation": "groupby"
+              },
+              "B ID": {
+                "aggregations": [
+                  "count"
+                ],
+                "operation": "aggregate"
+              },
+              "B sort": {
+                "aggregations": [
+                  "sum"
+                ],
+                "operation": "aggregate"
+              },
+              "id": {
+                "aggregations": [
+                  "count"
+                ],
+                "operation": "aggregate"
+              },
+              "manufacturers_id": {
+                "aggregations": [],
+                "operation": "groupby"
+              }
+            }
+          }
+        }
+      ],
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "marcusolsson-json-datasource",
+        "uid": "${DS_JSON_API}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 71
+      },
+      "id": 39,
+      "options": {
+        "displayLabels": [
+          "percent"
+        ],
+        "legend": {
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true,
+          "values": []
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.2.5",
+      "targets": [
+        {
+          "cacheDurationSeconds": 300,
+          "columns": [],
+          "datasource": {
+            "type": "marcusolsson-json-datasource",
+            "uid": "${DS_JSON_API}"
+          },
+          "fields": [
+            {
+              "jsonPath": "$.data[*].53",
+              "language": "jsonpath",
+              "name": ""
+            },
+            {
+              "jsonPath": "$.data[*].31",
+              "language": "jsonpath",
+              "name": ""
+            }
+          ],
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "headers": [],
+          "method": "GET",
+          "queryParams": "",
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "type": "json",
+          "url": "https://github.com/yesoreyeram/grafana-infinity-datasource/blob/main/testdata/users.json",
+          "urlPath": "/search/networkequipment/?criteria[0][link]=AND&criteria[0][field]=53&criteria[0][searchtype]=equals&criteria[0][value]=",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Network equipement per provider...",
+      "transformations": [
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "1": {
+                "aggregations": [],
+                "operation": "aggregate"
+              },
+              "3": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "5": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "31": {
+                "aggregations": [
+                  "count"
+                ],
+                "operation": "aggregate"
+              },
+              "53": {
+                "aggregations": [
+                  "count"
+                ],
+                "operation": "groupby"
+              },
+              "57": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "A 57": {
+                "aggregations": [
+                  "sum"
+                ],
+                "operation": "groupby"
+              },
+              "B ID": {
+                "aggregations": [
+                  "count"
+                ],
+                "operation": "aggregate"
+              },
+              "B sort": {
+                "aggregations": [
+                  "sum"
+                ],
+                "operation": "aggregate"
+              },
+              "id": {
+                "aggregations": [
+                  "count"
+                ],
+                "operation": "aggregate"
+              },
+              "manufacturers_id": {
+                "aggregations": [],
+                "operation": "groupby"
+              }
+            }
+          }
+        }
+      ],
+      "type": "piechart"
+    }
+  ],
+  "refresh": false,
+  "schemaVersion": 37,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "2022-01-01T06:31:34.000Z",
+    "to": "2023-01-15T11:00:00.000Z"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "ITSM-API EN",
+  "uid": "AyODNh2Vk",
+  "version": 203,
+  "weekStart": ""
+}
