@@ -1268,7 +1268,7 @@
           }
         }
       ],
-      "title": "Network Equipement per Type.....",
+      "title": "Network equipment per Type.....",
       "transformations": [
         {
           "id": "groupBy",
@@ -1526,7 +1526,7 @@
           }
         }
       ],
-      "title": "Network Equipement per manufacturer...",
+      "title": "Network equipment per manufacturer...",
       "transformations": [
         {
           "id": "groupBy",
@@ -1655,7 +1655,7 @@
           }
         }
       ],
-      "title": "Number of network equipement",
+      "title": "Number of network equipment",
       "type": "stat"
     },
     {
@@ -2600,7 +2600,7 @@
           }
         }
       ],
-      "title": "Network equipement per provider...",
+      "title": "Network equipment per provider...",
       "transformations": [
         {
           "id": "groupBy",
@@ -2684,6 +2684,6 @@
   "timezone": "",
   "title": "ITSM-API EN",
   "uid": "AyODNh2Vk",
-  "version": 203,
+  "version": 204,
   "weekStart": ""
 }
