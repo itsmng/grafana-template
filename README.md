@@ -8,4 +8,4 @@ ITSM-NG is a GLPI fork with the objective of offering a strong community compone
   - [Github](https://github.com/itsmng)
   - [Wiki](https://wiki.itsm-ng.org)
 
-![Screenshot total of budget](img/grafana/Dashboards-Grafana-Full.png)
+![Screenshot total of budget](img/Dashboards-Grafana-Full.png)
