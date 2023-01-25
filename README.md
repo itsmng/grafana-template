@@ -9,3 +9,7 @@ ITSM-NG is a GLPI fork with the objective of offering a strong community compone
   - [Wiki](https://wiki.itsm-ng.org)
 
 ![Screenshot total of budget](img/Dashboards-Grafana-Full.png)
+
+# Install the dashboard
+
+To the Dashboard please use the WIKI documention on - [ITSM-NG WIKI](https://wiki.itsm-ng.com)
