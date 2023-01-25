@@ -12,6 +12,12 @@
   "__elements": {},
   "__requires": [
     {
+      "type": "panel",
+      "id": "barchart",
+      "name": "Bar chart",
+      "version": ""
+    },
+    {
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
@@ -652,8 +658,7 @@
               "viz": false
             }
           },
-          "mappings": [],
-          "unit": "short"
+          "mappings": []
         },
         "overrides": []
       },
@@ -697,13 +702,13 @@
           },
           "fields": [
             {
-              "jsonPath": "$.data[*].2",
+              "jsonPath": "$.*.id",
               "language": "jsonpath",
               "name": "id",
               "type": "number"
             },
             {
-              "jsonPath": "$.data[*].71",
+              "jsonPath": "$.*.groups_id",
               "language": "jsonpath",
               "name": "Groupe"
             }
@@ -711,7 +716,7 @@
           "method": "GET",
           "queryParams": "",
           "refId": "B",
-          "urlPath": "/search/ticket/?expand_dropdowns=true&criteria[0][field]=71&criteria[0][searchtype]=equals&criteria[0][value]=0"
+          "urlPath": "/Group_Ticket/?expand_dropdowns=true"
         }
       ],
       "title": "Ticket per user group...",
@@ -2249,6 +2254,24 @@
               }
             }
           }
+        },
+        {
+          "id": "filterByValue",
+          "options": {
+            "filters": [
+              {
+                "config": {
+                  "id": "equal",
+                  "options": {
+                    "value": "0"
+                  }
+                },
+                "fieldName": "Budgets"
+              }
+            ],
+            "match": "all",
+            "type": "exclude"
+          }
         }
       ],
       "type": "piechart"
@@ -2264,15 +2287,48 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
               "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
             }
           },
-          "mappings": []
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "PC (count)"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Number of PC"
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 8,
@@ -2282,27 +2338,24 @@
       },
       "id": 40,
       "options": {
-        "displayLabels": [
-          "percent"
-        ],
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "groupWidth": 0.7,
         "legend": {
+          "calcs": [],
           "displayMode": "list",
           "placement": "right",
-          "showLegend": true,
-          "values": []
+          "showLegend": true
         },
-        "pieType": "pie",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": true
-        },
+        "orientation": "auto",
+        "showValue": "never",
+        "stacking": "none",
         "tooltip": {
           "mode": "single",
           "sort": "none"
-        }
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
       },
       "pluginVersion": "9.2.5",
       "targets": [
@@ -2350,7 +2403,7 @@
           }
         }
       ],
-      "type": "piechart"
+      "type": "barchart"
     },
     {
       "datasource": {
@@ -2682,8 +2735,8 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "ITSM-API EN",
+  "title": "ITSM-API",
   "uid": "AyODNh2Vk",
-  "version": 204,
+  "version": 212,
   "weekStart": ""
 }
